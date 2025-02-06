@@ -1,16 +1,10 @@
 pipeline {
     agent any
-
-    // Configure tools (JDK)
-    tools {
-        jdk 'jdk-21' // Name of the JDK installation configured in Jenkins
-    }
-
     environment {
         registry = "ihebtb/devops"
         registryCredential = 'docker-hub-creds'
         dockerImage = ''
-        SONARQUBE_URL = 'http://192.168.43.182:9000' // SonarQube server URL
+        SONARQUBE_URL = 'http://192.168.10.114:9000' // Add SonarQube URL here
     }
     
     stages {
@@ -46,14 +40,14 @@ pipeline {
         stage("SonarQube Analysis") {
             steps {
                 withCredentials([string(credentialsId: '0af34e3d-d722-4829-8d48-03199ab990d5', variable: 'SONARQUBE_TOKEN')]) {
-                    sh '''
+                    sh """
                         mvn sonar:sonar \
                             -Dsonar.projectKey=devops-projet \
                             -Dsonar.host.url=http://192.168.43.182:9000/ \
                             -Dsonar.login=$SONARQUBE_TOKEN \
                             -Dsonar.sources=src/main/java \
                             -Dsonar.tests=src/test/java
-                    '''
+                    """
                 }
                 echo 'SonarQube analysis done'
             }
@@ -99,3 +93,4 @@ pipeline {
         }
     }
 }
+
