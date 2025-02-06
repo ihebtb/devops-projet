@@ -4,6 +4,7 @@ pipeline {
         registry = "ihebtb/devops"
         registryCredential = 'docker-hub-creds'
         dockerImage = ''
+        SONARQUBE_URL = 'http://192.168.10.114:9000' // Add SonarQube URL here
     }
     
     stages {
@@ -38,8 +39,7 @@ pipeline {
         
         stage("SonarQube Analysis") {
             steps {
-                // Example command for SonarQube analysis
-    withCredentials([string(credentialsId: '0af34e3d-d722-4829-8d48-03199ab990d5', variable: 'SONARQUBE_TOKEN')]) {
+                withCredentials([string(credentialsId: '0af34e3d-d722-4829-8d48-03199ab990d5', variable: 'SONARQUBE_TOKEN')]) {
                     sh """
                         mvn sonar:sonar \
                             -Dsonar.projectKey=devops-projet \
@@ -47,8 +47,9 @@ pipeline {
                             -Dsonar.login=$SONARQUBE_TOKEN \
                             -Dsonar.sources=src/main/java \
                             -Dsonar.tests=src/test/java
-                    """  // SonarQube analysis
-                }                echo 'SonarQube analysis done'
+                    """
+                }
+                echo 'SonarQube analysis done'
             }
         }
           
@@ -61,8 +62,7 @@ pipeline {
         
         stage("Nexus Deploy") {
             steps {
-                // Example command for Nexus deployment
-                 sh "mvn deploy:deploy-file -DgroupId=tn.esprit -DartifactId=FirstMavenProject -Dversion=1.0 -Dpackaging=jar -Dfile=target/FirstMavenProject-1.0.jar -DrepositoryId=deploymentRepo -Durl=http://192.168.10.114:8082/repository/maven-releases/"
+                sh "mvn deploy:deploy-file -DgroupId=tn.esprit -DartifactId=FirstMavenProject -Dversion=1.0 -Dpackaging=jar -Dfile=target/FirstMavenProject-1.0.jar -DrepositoryId=deploymentRepo -Durl=http://192.168.10.114:8082/repository/maven-releases/"
                 echo 'Nexus deployment done'
             }
         }
