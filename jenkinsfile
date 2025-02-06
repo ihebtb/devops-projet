@@ -3,7 +3,7 @@ pipeline {
 
     // Configure tools (JDK)
     tools {
-        jdk 'jdk-17' // Name of the JDK installation configured in Jenkins
+        jdk 'jdk-21' // Name of the JDK installation configured in Jenkins
     }
 
     environment {
