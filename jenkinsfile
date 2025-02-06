@@ -39,7 +39,7 @@ pipeline {
         stage("SonarQube Analysis") {
             steps {
                 // Example command for SonarQube analysis
-                 sh 'mvn sonar:sonar -Dsonar.projectKey=tpAchat -Dsonar.host.url=http://192.168.10.114:9000 -Dsonar.login=sqp_a62ea5e9b0ecc84272967f9cdc400b74cf7d884e'
+                 sh 'mvn sonar:sonar -Dsonar.projectKey=tpAchat -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=sqp_a62ea5e9b0ecc84272967f9cdc400b74cf7d884e'
                 echo 'SonarQube analysis done'
             }
         }
