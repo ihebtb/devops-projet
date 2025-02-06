@@ -1,6 +1,7 @@
 package com.esprit.examen.services;
 
 import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
@@ -40,12 +41,11 @@ public class FactureServiceImpl implements IFactureService {
 	public List<Facture> retrieveAllFactures() {
 		List<Facture> factures = (List<Facture>) factureRepository.findAll();
 		for (Facture facture : factures) {
-			log.info(" facture : " + facture);
+			System.out.print(" facture : " + facture);
 		}
 		return factures;
 	}
 
-	
 	public Facture addFacture(Facture f) {
 		return factureRepository.save(f);
 	}
@@ -54,6 +54,7 @@ public class FactureServiceImpl implements IFactureService {
 	 * calculer les montants remise et le montant total d'un détail facture
 	 * ainsi que les montants d'une facture
 	 */
+	@SuppressWarnings("unused")
 	private Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
 		float montantFacture = 0;
 		float montantRemise = 0;
@@ -97,6 +98,7 @@ public class FactureServiceImpl implements IFactureService {
 		return facture;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Facture> getFacturesByFournisseur(Long idFournisseur) {
 		Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
@@ -118,6 +120,12 @@ public class FactureServiceImpl implements IFactureService {
 		float pourcentage=(totalRecouvrementEntreDeuxDates/totalFacturesEntreDeuxDates)*100;
 		return pourcentage;
 	}
+
+	@Override
+	public List<Facture> searchByMontantSup(float montant) {
+		return factureRepository.findByMontantRemiseGreaterThan(montant);
+	}
+	
 	
 
 }
