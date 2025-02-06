@@ -42,7 +42,7 @@ pipeline {
     withCredentials([string(credentialsId: '0af34e3d-d722-4829-8d48-03199ab990d5', variable: 'SONARQUBE_TOKEN')]) {
                     sh """
                         mvn sonar:sonar \
-                            -Dsonar.projectKey=Devops \
+                            -Dsonar.projectKey=devops-projet \
                             -Dsonar.host.url=${SONARQUBE_URL} \
                             -Dsonar.login=$SONARQUBE_TOKEN \
                             -Dsonar.sources=src/main/java \
