@@ -62,7 +62,7 @@ pipeline {
         
         stage("Nexus Deploy") {
             steps {
-                sh "mvn deploy:deploy-file -DgroupId=tn.esprit -DartifactId=FirstMavenProject -Dversion=1.0 -Dpackaging=jar -Dfile=target/FirstMavenProject-1.0.jar -DrepositoryId=deploymentRepo -Durl=http://192.168.10.114:8082/repository/maven-releases/"
+                sh "mvn deploy:deploy-file -DgroupId=tn.esprit -DartifactId=FirstMavenProject -Dversion=1.0 -Dpackaging=jar -Dfile=target/FirstMavenProject-1.0.jar -DrepositoryId=deploymentRepo -Durl=http://172.17.0.4:8082/repository/maven-releases/"
                 echo 'Nexus deployment done'
             }
         }
