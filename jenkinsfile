@@ -3,7 +3,7 @@ pipeline {
     environment {
         registry = "ihebtb/devops"
         registryCredential = 'docker-hub-creds'
-        dockerImage = ''
+        dockerImage = 'tpAchat'
         SONARQUBE_URL = 'http://192.168.10.114:9000' // Add SonarQube URL here
     }
     
