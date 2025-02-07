@@ -44,7 +44,7 @@ pipeline {
                         mvn sonar:sonar \
                             -Dsonar.projectKey=devops-projet \
                             -Dsonar.host.url=http://172.18.0.2:9000 \
-                            -Dsonar.login=$SONARQUBE_TOKEN \
+                            -Dsonar.login=${SONARQUBE_TOKEN} \
                             -Dsonar.sources=src/main/java \
                             -Dsonar.tests=src/test/java
                     """
