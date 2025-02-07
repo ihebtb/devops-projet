@@ -51,11 +51,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-    <groupId>org.projectlombok</groupId>
-    <artifactId>lombok</artifactId>
-    <version>1.18.20</version> <!-- Ajoute la dernière version -->
-    <scope>provided</scope>
-</dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version> <!-- Ajoute la dernière version -->
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
@@ -71,6 +71,13 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://172.19.0.3:8081/repository/maven-releases/</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -89,21 +96,17 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
-                 
-    <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.9.1.2184</version> <!-- Use an older version compatible with Java 11 -->
-    </plugin>
+
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version> <!-- Use an older version compatible with Java 11 -->
+            </plugin>
 
         </plugins>
     </build>
+
     <distributionManagement>
-<repositories>
-  <repository>
-    <id>nexus</id>
-    <url>http://172.19.0.3:8081/repository/maven-releases/</url>
-  </repository>
-</repositories>
-</distributionManagement>
+        <!-- Normally, distributionManagement contains the repository for deployment, but not for build repositories -->
+    </distributionManagement>
 </project>
