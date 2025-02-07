@@ -4,46 +4,45 @@ pipeline {
         registry = "ihebtb/devops"
         registryCredential = 'docker-hub-creds'
         dockerImage = 'tpAchat'
-        SONARQUBE_URL = 'http://172.18.0.2:9000' // Add SonarQube URL here
+        SONARQUBE_URL = 'http://172.18.0.2:9000' // SonarQube URL
     }
-    
+
     stages {
         stage("Cloning Project") {
             steps {
-                git branch: 'main', 
-                url: 'https://github.com/ihebtb/devops-projet.git'
+                git branch: 'main', url: 'https://github.com/ihebtb/devops-projet.git'
                 echo 'Checkout stage done'
             }
         }
-        
+
         stage('MVN Clean') {
             steps {
                 sh 'mvn clean -e'
                 echo 'Clean stage done'
             }
         }
-    
+
         stage("Compile Project") {
             steps {
                 sh 'mvn compile -X -e'
                 echo 'Compile stage done'
             }
         }
-        
+
         stage("Unit Tests") {
             steps {
                 sh 'mvn test'
                 echo 'Unit tests stage done'
             }
         }
-        
+
         stage("SonarQube Analysis") {
             steps {
                 withCredentials([string(credentialsId: 'sonarQube-tokken', variable: 'SONARQUBE_TOKEN')]) {
                     sh """
                         mvn sonar:sonar \
                             -Dsonar.projectKey=devops-projet \
-                            -Dsonar.host.url=http://172.18.0.2:9000 \
+                            -Dsonar.host.url=${SONARQUBE_URL} \
                             -Dsonar.login=${SONARQUBE_TOKEN} \
                             -Dsonar.sources=src/main/java \
                             -Dsonar.tests=src/test/java
@@ -52,21 +51,30 @@ pipeline {
                 echo 'SonarQube analysis done'
             }
         }
-          
+
         stage("Maven Build") {
             steps {
                 sh "mvn package -DskipTests=true"
                 echo 'Build project done'
             }
         }
-        
+
         stage("Nexus Deploy") {
             steps {
-                sh "mvn deploy:deploy-file -DgroupId=tn.esprit -DartifactId=FirstMavenProject -Dversion=1.0 -Dpackaging=jar -Dfile=target/FirstMavenProject-1.0.jar -DrepositoryId=deploymentRepo -Durl=http://172.17.0.4:8081/repository/maven-releases/-Dfile=target/FirstMavenProject-1.0.jar"
+                sh """
+                    mvn deploy:deploy-file \
+                        -DgroupId=tn.esprit \
+                        -DartifactId=FirstMavenProject \
+                        -Dversion=1.0 \
+                        -Dpackaging=jar \
+                        -Dfile=target/FirstMavenProject-1.0.jar \
+                        -DrepositoryId=deploymentRepo \
+                        -Durl=http://172.17.0.4:8081/repository/maven-releases/
+                """
                 echo 'Nexus deployment done'
             }
         }
-        
+
         stage('Building Docker Image') {
             steps {
                 script {
@@ -74,7 +82,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Deploy Docker Image') {
             steps {
                 script {
@@ -84,7 +92,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Cleaning up') {
             steps {
                 sh "docker rmi ${registry}:${BUILD_NUMBER}"
@@ -93,4 +101,3 @@ pipeline {
         }
     }
 }
-
