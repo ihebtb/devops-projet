@@ -62,17 +62,16 @@ pipeline {
         stage("Nexus Deploy") {
             steps {
                 sh """
-    mvn deploy:deploy-file \
-        -DgroupId=tn.esprit \
-        -DartifactId=FirstMavenProject \
-        -Dversion=1.0 \
-        -Dpackaging=jar \
-        -Dfile=target/tpAchatProject-1.0.jar \
-        -DrepositoryId=Nexus \
-        -Durl=http://172.19.0.3:8081/repository/maven-releases/  \
-        -Dhttp.timeout=60000
-
-"""
+                mvn deploy:deploy-file \
+                    -DgroupId=tn.esprit \
+                    -DartifactId=FirstMavenProject \
+                    -Dversion=1.0 \
+                    -Dpackaging=jar \
+                    -Dfile=target/tpAchatProject-1.0.jar \
+                    -DrepositoryId=nexus \  # Matches <id> in settings.xml
+                    -Durl=http://172.19.0.3:8081/repository/maven-releases/  \
+                    -Dhttp.timeout=60000
+                """
                 echo 'Nexus deployment done'
             }
         }
