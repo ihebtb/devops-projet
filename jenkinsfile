@@ -69,7 +69,7 @@ pipeline {
         -Dpackaging=jar \
         -Dfile=target/tpAchatProject-1.0.jar \
         -DrepositoryId=nexus \
-        -Durl=http://172.19.0.3:8081/repository/maven-releases/ \
+        -Durl=http://172.19.0.3:8081/#browse/browse:maven-releases \
         -Dhttp.timeout=60000
 """
 
