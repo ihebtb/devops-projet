@@ -99,10 +99,11 @@
         </plugins>
     </build>
     <distributionManagement>
-<repository>
-<id>nexus</id>
-<name>Nexus Repository</name>
-<url>http://172.19.0.3:8081/repository/maven-releases/</url>
-</repository>
+<repositories>
+  <repository>
+    <id>nexus</id>
+    <url>http://172.19.0.3:8081/repository/maven-releases/</url>
+  </repository>
+</repositories>
 </distributionManagement>
 </project>
