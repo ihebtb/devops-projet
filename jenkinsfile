@@ -62,7 +62,7 @@ pipeline {
         stage("Nexus Deploy") {
             steps {
                 sh """
-    mvn deploy:deploy-file \
+    mvn -X deploy:deploy-file \
         -DgroupId=tn.esprit \
         -DartifactId=FirstMavenProject \
         -Dversion=1.0 \
