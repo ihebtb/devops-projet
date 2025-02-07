@@ -69,7 +69,9 @@ pipeline {
         -Dpackaging=jar \
         -Dfile=target/tpAchatProject-1.0.jar \
         -DrepositoryId=deploymentRepo \
-        -Durl=http://172.17.0.4:8081/repository/maven-releases/
+        -Durl=http://172.17.0.4:8081/repository/maven-releases/  \
+        -Dhttp.timeout=60000
+
 """
                 echo 'Nexus deployment done'
             }
